@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Api link</title>
+</head>
+
+<body>
+    <div id="empty"></div>
+    <script>
+        //body 
+        document.body.style.backgroundColor = "yellow"
+        //header
+        var header = document.createElement("h1")
+        header.innerText = "Weather of Countries"
+        header.style.backgroundColor = "grey"
+        header.style.color = "pink"
+        document.body.appendChild(header)
+
+
+
+
+        //board creation
+        var board = document.createElement("div")
+        board.style.backgroundColor = "pink"
+        board.style.width = "auto"
+        board.style.height = "auto"
+        board.style.margin = "50px"
+        board.style.display = "flex"
+        board.style.flexWrap = "wrap"
+        board.style.border = "3px solid blue"
+        document.body.appendChild(board)
+
+
+        //fetch details from api 
+
+        fetch("https://restcountries.com/v3.1/all")
+            .then(function (data) {
+                return data.json();
+            })
+            .then(function (dataObj) {
+                console.log(dataObj);
+
+                //for each loop
+
+                dataObj.forEach((element) => {
+                    //box creation
+                    var box = document.createElement("div")
+                    box.style.width = "300px"
+                    box.style.height = "250px"
+                    box.style.backgroundColor = "black"
+                    box.setAttribute("id", "index")
+                    box.style.display = "flex"
+                    box.style.flexWrap = "wrap"
+                    box.style.flexDirection = "row"
+                    box.style.border = "3px solid white";
+                    box.style.margin = "20px"
+                    board.appendChild(box)
+
+                    //box1 creation
+
+                    var image = document.createElement("img")
+                    image.style.width = "299px"
+                    image.style.height = "100px"
+                    image.style.backgroundColor = "black"
+                    image.setAttribute("src", element.flags.png)
+                    image.style.display = "flex"
+                    image.style.flexWrap = "wrap"
+                    image.style.flexDirection = "row"
+                    box.appendChild(image)
+
+                    //box2 creation
+
+                    var box2 = document.createElement("div")
+                    box2.style.width = "299px"
+                    box2.style.height = "50px"
+                    box2.style.backgroundColor = "black"
+                    box2.style.color = "orange"
+                    box2.innerHTML = element.name.common
+                    box2.style.margin = "0"
+                    box2.style.padding = "0"
+                    box2.style.fontSize = "20px"
+                    box2.style.display = "flex"
+                    box2.style.flexWrap = "wrap"
+                    box2.style.flexDirection = "row"
+                    box.appendChild(box2)
+
+
+                    //box3 creation
+
+                    var box3 = document.createElement("div")
+                    box3.style.width = "299px"
+                    box3.style.height = "50px"
+                    box3.style.backgroundColor = "black"
+                    box3.style.color = "orange"
+                    box3.innerHTML = element.capital
+                    box3.style.margin = "0"
+                    box3.style.padding = "0"
+                    box3.style.fontSize = "20px"
+                    box3.style.display = "flex"
+                    box3.style.flexWrap = "wrap"
+                    box3.style.flexDirection = "row"
+                    box.appendChild(box3)
+
+                    //button creation
+
+                    var butt = document.createElement("button")
+                    butt.style.marginLeft = "200px"
+                    butt.style.backgroundColor = "yellow"
+                    butt.style.color = "red"
+                    butt.innerText = "CLICK"
+                    butt.style.fontSize = "30px"
+                    butt.style.width = "100px"
+                    butt.style.height = "50px"
+                    box.appendChild(butt)
+                    butt.addEventListener("click", () => {
+
+                        //popup div
+
+                        var popUp = document.createElement("div")
+                        popUp.style.width = "500px";
+                        popUp.style.height = "auto"
+                        popUp.style.position = "fixed"
+                        popUp.style.marginLeft = "500px"
+                        popUp.style.marginTop = "200px"
+                        popUp.style.display = "flex"
+                        popUp.style.flexDirection = "wrap"
+                        popUp.style.flexDirection = "column"
+                        popUp.style.backgroundImage = "url('cloud.jpg')"
+                        popUp.style.backgroundSize = "500px 200px"
+                        popUp.style.border = "3px solid black"
+                        empty.appendChild(popUp)
+
+                        //close button
+
+                        var closebut = document.createElement("button")
+                        closebut.style.width = "50px"
+                        closebut.style.height = "50px"
+                        closebut.style.position = "relative"
+                        closebut.style.backgroundColor = "red"
+                        closebut.innerText = "X"
+                        closebut.style.fontSize = "40px"
+                        closebut.style.display = "inline"
+                        closebut.style.marginLeft = "450px"
+                        closebut.addEventListener("click", () => {
+                            popUp.style.display = "none"
+                        })
+                        popUp.appendChild(closebut)
+
+                        //weather api get
+
+                        fetch("https://api.openweathermap.org/data/2.5/weather?q=" + box2.innerHTML + "&appid=308ab47b68bedc7c47b7999aa3766dad")
+                            .then(function (weather) {
+                                return weather.json();
+                            })
+                            .then(function (weatherobj) {
+                                console.log(weatherobj);
+
+
+                                //using weather details printing it on the modal window 
+
+                                var headingwin = document.createElement("h1")
+                                headingwin.innerText = element.name.common + " Weather";
+                                headingwin.style.width = "350px"
+                                headingwin.style.height = "70px"
+                                headingwin.style.display = "inline"
+                                headingwin.style.position = "relative"
+                                headingwin.style.marginLeft = "40px"
+                                headingwin.style.marginTop = "20px"
+                                headingwin.style.textAlign = "center"
+                                popUp.appendChild(headingwin)
+
+                                //temp 
+
+                                var name1 = document.createElement("div")
+                                name1.style.width = "auto"
+                                name1.style.height = "auto"
+                                name1.style.color = "maroon"
+                                name1.innerHTML = "<h2>" + "Temperature: " + weatherobj.main.temp + "</h3>";
+                                popUp.appendChild(name1)
+
+
+                                //min temp
+
+                                var name2 = document.createElement("div")
+                                name2.style.width = "auto"
+                                name2.style.height = "auto"
+                                name2.style.color = "maroon"
+                                name2.innerHTML = "<h2>" + "Mininum Temperature: " + weatherobj.main.temp_min + "</h3>";
+                                popUp.appendChild(name2)
+
+                                //temp_max
+
+                                var name3 = document.createElement("div")
+                                name3.style.width = "auto"
+                                name3.style.height = "auto"
+                                name3.style.color = "maroon"
+                                name3.innerHTML = "<h2>" + "Maximum Temperature: " + weatherobj.main.temp_max + "</h3>";
+                                popUp.appendChild(name3)
+
+
+                            })//weatherobj
+
+                    })
+
+                });// foreach element
+
+            })// function dataobj closes
+
+    </script>
+</body>
+
+</html>
